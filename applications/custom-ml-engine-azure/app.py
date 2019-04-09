@@ -25,8 +25,43 @@ def load_credit_model():
 load_credit_model()
 
 
-@app.route("/v1/deployments/credit/online", methods=["POST"])
-def credit_online():
+@app.route("/v1/deployments/credit1/online", methods=["POST"])
+def credit_online1():
+    response = {}
+    labels = ['Risk', 'No Risk']
+
+    if flask.request.method == "POST":
+        payload = flask.request.get_json()
+
+        if payload is not None:
+            df = pd.DataFrame.from_records(payload['values'], columns=payload['fields'])
+            scores = credit_model['model'].predict_proba(df).tolist()
+            predictions = credit_model['postprocessing'](credit_model['model'].predict(df))
+            response = {'fields': ['prediction', 'probability'], 'labels': labels,
+                        'values': list(map(list, list(zip(predictions, scores))))}
+
+    return flask.jsonify(response)
+
+
+@app.route("/v1/deployments/credit2/online", methods=["POST"])
+def credit_online2():
+    response = {}
+    labels = ['Risk', 'No Risk']
+
+    if flask.request.method == "POST":
+        payload = flask.request.get_json()
+
+        if payload is not None:
+            df = pd.DataFrame.from_records(payload['values'], columns=payload['fields'])
+            scores = credit_model['model'].predict_proba(df).tolist()
+            predictions = credit_model['postprocessing'](credit_model['model'].predict(df))
+            response = {'fields': ['prediction', 'probability'], 'labels': labels,
+                        'values': list(map(list, list(zip(predictions, scores))))}
+
+    return flask.jsonify(response)
+
+@app.route("/v1/deployments/credit3/online", methods=["POST"])
+def credit_online3():
     response = {}
     labels = ['Risk', 'No Risk']
 
@@ -77,17 +112,57 @@ def get_deployments():
             "resources": [
                 {
                     "metadata": {
-                        "guid": "credit",
+                        "guid": "credit1",
                         "created_at": "2019-01-01T10:11:12Z",
                         "modified_at": "2019-01-02T12:00:22Z"
                     },
                     "entity": {
                         "name": "German credit risk compliant deployment",
                         "description": "Scikit-learn credit risk model deployment",
-                        "scoring_url": "https://{}/v1/deployments/credit/online".format(host_url),
+                        "scoring_url": "https://{}/v1/deployments/credit1/online".format(host_url),
                         "asset": {
-                              "name": "credit",
-                              "guid": "credit"
+                              "name": "credit1",
+                              "guid": "credit1"
+                        },
+                        "asset_properties": {
+                               "problem_type": "binary",
+                               "input_data_type": "structured",
+                        }
+                    }
+                },
+                {
+                    "metadata": {
+                        "guid": "credit2",
+                        "created_at": "2019-01-01T10:11:12Z",
+                        "modified_at": "2019-01-02T12:00:22Z"
+                    },
+                    "entity": {
+                        "name": "German credit risk compliant deployment",
+                        "description": "Scikit-learn credit risk model deployment",
+                        "scoring_url": "https://{}/v1/deployments/credit2/online".format(host_url),
+                        "asset": {
+                              "name": "credit2",
+                              "guid": "credit2"
+                        },
+                        "asset_properties": {
+                               "problem_type": "binary",
+                               "input_data_type": "structured",
+                        }
+                    }
+                },
+                {
+                    "metadata": {
+                        "guid": "credit3",
+                        "created_at": "2019-01-01T10:11:12Z",
+                        "modified_at": "2019-01-02T12:00:22Z"
+                    },
+                    "entity": {
+                        "name": "German credit risk compliant deployment",
+                        "description": "Scikit-learn credit risk model deployment",
+                        "scoring_url": "https://{}/v1/deployments/credit3/online".format(host_url),
+                        "asset": {
+                              "name": "credit3",
+                              "guid": "credit3"
                         },
                         "asset_properties": {
                                "problem_type": "binary",
