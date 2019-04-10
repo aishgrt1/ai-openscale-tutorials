@@ -108,7 +108,7 @@ def get_deployments():
     if flask.request.method == "GET":
         host_url = flask.request.host
         response = {
-            "count": 2,
+            "count": 4,
             "resources": [
                 {
                     "metadata": {
