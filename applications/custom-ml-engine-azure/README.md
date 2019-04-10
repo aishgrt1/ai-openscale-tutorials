@@ -21,7 +21,7 @@ User also should have account on Azure Portal.
 #### Clone repository and enter cloned project directory:
 
    ```bash
-   $ git clone https://github.com/pmservice/ai-openscale-tutorials
+   $ git clone https://github.com/aishgrt1/aishwarya-openscale
    $ cd ai-openscale-tutorials/applications/custom-ml-engine-azure
    ```
 #### Run:
